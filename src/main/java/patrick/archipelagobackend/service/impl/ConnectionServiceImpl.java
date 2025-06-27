@@ -26,12 +26,12 @@ public class ConnectionServiceImpl implements ConnectionService {
     }
 
     @Override
-    public void deleteConnection(Connection connection) {
+    public void deleteConnection(Long connectionId) {
 
     }
 
     @Override
-    public Connection updateConnection(User user, String fromMovieIMDbId, String toMovieIMDbId, String newReason) {
+    public Connection updateConnection(Long connectionId, String fromMovieIMDbId, String toMovieIMDbId, String newReason) {
         return null;
     }
 }

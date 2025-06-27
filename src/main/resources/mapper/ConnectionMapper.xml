@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="patrick.archipelagobackend.mapper.ConnectionMapper">
+    <resultMap id="ConnectionResultMap" type="patrick.archipelagobackend.model.Connection">
+        <id property="id" column="id" />
+        <result property="weight" column="weight" />
+        <result property="reason" column="reason" />
+        <result property="user" column="user_id" />
+        <result property="fromMovieIMDbId" column="from_movie_imdb_id" />
+        <result property="toMovieIMDbId" column="to_movie_imdb_id" />
+    </resultMap>
+
+    <select id="findByUserId" parameterType="long" resultMap="ConnectionResultMap">
+        SELECT * FROM connections WHERE user_id = #{userId}
+    </select>
+
+    <insert id="insertConnection" parameterType="patrick.archipelagobackend.model.Connection" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO connections (from_movie_imdb_id, to_movie_imdb_id, reason, weight, user_id)
+            VALUES (#{fromMovieIMDbId}, #{toMovieIMDbId}, #{reason}, #{weight}, #{user.id})
+    </insert>
+
+    <update id="updateConnection" parameterType="patrick.archipelagobackend.model.Connection">
+        UPDATE connections
+        SET reason = #{reason},
+            from_movie_imdb_id = #{fromMovieIMDbId},
+            to_movie_imdb_id = #{toMovieIMDbId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteConnection" parameterType="long">
+        DELETE FROM connections WHERE id = #{id}
+    </delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

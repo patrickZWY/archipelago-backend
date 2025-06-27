@@ -2,10 +2,7 @@ package patrick.archipelagobackend.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import patrick.archipelagobackend.model.Connection;
 import patrick.archipelagobackend.model.User;
 import patrick.archipelagobackend.service.ConnectionService;
@@ -25,6 +22,28 @@ public class ConnectionController {
         return ResponseEntity.ok(ApiResponse.success(connections, "Connections retrieved successfully"));
     }
 
+    @PostMapping
+    public ResponseEntity<ApiResponse<Connection>> addConnection(@RequestAttribute User user,
+                                                                 @RequestParam String fromMovieId,
+                                                                 @RequestParam String toMovieId,
+                                                                 @RequestParam String reason) {
+        Connection connection = connectionService.addConnection(user, fromMovieId, toMovieId, reason);
+        return ResponseEntity.ok(ApiResponse.success(connection, "Connection added success"));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<Connection>> updateConnection(@PathVariable("id") Long id, @RequestParam String reason, @RequestParam String fromMovieIMDbId, @RequestParam String toMovieIMDbId)
+    {
+        Connection connection = connectionService.updateConnection(id, fromMovieIMDbId, toMovieIMDbId, reason);
+        return ResponseEntity.ok(ApiResponse.success(connection, "Connection update successful"));
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deleteConnection(@PathVariable Long id) {
+        connectionService.deleteConnection(id);
+        return ResponseEntity.ok(ApiResponse.success("Connection delete successful"));
+    }
 
 
 
