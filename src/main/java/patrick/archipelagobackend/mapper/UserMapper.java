@@ -13,4 +13,9 @@ public interface UserMapper {
 
     void updateUser(User user);
 
+    int countUserByEmail(String email);
+
+    int countByUsernameIgnoreCase(String username);
+
+
 }

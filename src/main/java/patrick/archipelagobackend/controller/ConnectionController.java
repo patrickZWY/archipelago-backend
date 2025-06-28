@@ -16,13 +16,13 @@ import java.util.List;
 public class ConnectionController {
     private final ConnectionService connectionService;
 
-    @GetMapping
+    @GetMapping("/getConnection")
     public ResponseEntity<ApiResponse<List<Connection>>> getConnections(@RequestAttribute User user) {
         List<Connection> connections = connectionService.getConnectionsByUser(user);
         return ResponseEntity.ok(ApiResponse.success(connections, "Connections retrieved successfully"));
     }
 
-    @PostMapping
+    @PostMapping("/addConnection")
     public ResponseEntity<ApiResponse<Connection>> addConnection(@RequestAttribute User user,
                                                                  @RequestParam String fromMovieId,
                                                                  @RequestParam String toMovieId,
@@ -31,7 +31,7 @@ public class ConnectionController {
         return ResponseEntity.ok(ApiResponse.success(connection, "Connection added success"));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateConnection/{id}")
     public ResponseEntity<ApiResponse<Connection>> updateConnection(@PathVariable("id") Long id, @RequestParam String reason, @RequestParam String fromMovieIMDbId, @RequestParam String toMovieIMDbId)
     {
         Connection connection = connectionService.updateConnection(id, fromMovieIMDbId, toMovieIMDbId, reason);
@@ -39,8 +39,8 @@ public class ConnectionController {
 
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deleteConnection(@PathVariable Long id) {
+    @DeleteMapping("/deleteConnection/{id}")
+    public ResponseEntity<ApiResponse<String>> deleteConnection(@PathVariable Long id) {
         connectionService.deleteConnection(id);
         return ResponseEntity.ok(ApiResponse.success("Connection delete successful"));
     }

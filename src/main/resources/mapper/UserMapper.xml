@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="patrick.archipelagobackend.mapper.UserMapper">
+    <resultMap id="UserResultMap" type="patrick.archipelagobackend.model.User">
+        <id property="id" column="id" />
+        <result property="email" column="email" />
+        <result property="username" column="username" />
+        <result property="password" column="password" />
+        <result property="creationTime" column="creation_time" />
+        <result property="updateTime" column="update_time" />
+        <result property="deleted" column="deleted" />
+    </resultMap>
+
+    <select id="countUserByEmail" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM users WHERE LOWER(email) = LOWER(#{email})
+    </select>
+
+    <insert id="insertUser" parameterType="patrick.archipelagobackend.model.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (email, password, username, creation_time, update_time)
+        VALUES (#{email}, #{password}, #{username}, NOW(), NOW())
+    </insert>
+
+    <select id="countByUsernameIgnoreCase" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM users WHERE LOWER(username) = LOWER(#{username})
+    </select>
+
+    <select id="findUserByEmail" parameterType="String" resultMap="UserResultMap">
+        SELECT * FROM users WHERE LOWER(email) = LOWER(#{email})
+    </select>
+
+    <update id="updateUser" parameterType="patrick.archipelagobackend.model.User">
+        UPDATE users
+        SET password = #{password},
+            username = #{username},
+            email = #{email},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+
+
+
+</mapper>
